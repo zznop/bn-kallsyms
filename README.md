@@ -8,10 +8,13 @@ _Binary Ninja plugin for importing symbols to a kernel binary from /proc/kallsym
 bn-kallsyms allows you to open a file containing kernel symbols (generated with `cat /proc/kallsyms > out.txt`) from 
 inside the Binary Ninja UI to import symbol infromation and aid in kernel RE.
 
+**Before loading kernel symbols:**
+
 ![Before kallsyms import](screens/before.png "Before:")
 
-![After kallsyms import](screens/after.png "After:")
+**After loading kernel symbols:**
 
+![After kallsyms import](screens/after.png "After:")
 
 ## Minimum Version
 
