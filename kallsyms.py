@@ -47,22 +47,49 @@ class KAllSyms(BackgroundTaskThread):
         func.name = name
         func.comment = "[{}]".format(typ)
 
+    def get_architectures(self):
+        """Return a key/dict of architectures
+        """
+        archs = {}
+        for arch in list(Architecture):
+            archs[arch.name] = arch
+
+        return archs
+
     def make_functions(self, symbols, sections):
         """Make functions in text section of kernel image
         """
-        if not ".text" in sections:
-            return False, "No .text section defined"
+        binary_text_start = None
+        if ".text" in sections:
+            binary_text_start = sections[".text"].start
+        else:
+            archs = self.get_architectures()
+            arch_choices = list(archs.keys())
+            arch_field = ChoiceField("Architecture", arch_choices)
+            stext_field = IntegerField("stext Symbol Offset")
+            get_form_input([arch_field, stext_field], "Kernel Architecture and stext Offset")
+            self.view.platform = archs[arch_choices[arch_field.result]].standalone_platform
+            if stext_field.result == None:
+                show_message_box("kallsyms", "Failed to identify stext offset")
+                return
 
-        binary_text_start   = sections[".text"].start
+            binary_text_start = stext_field.result
+
+        binary_text_end = None
+        if ".text" in sections:
+            binary_text_end = sections[".text"].end
+        else:
+            binary_text_end = self.view.end
+
         kallsyms_text_start = symbols["T"]["_stext"]
         for name, addr in symbols["T"].iteritems():
             addr = self.adjust_addr(binary_text_start, kallsyms_text_start, addr)
-            if addr < sections[".text"].end:
+            if addr < binary_text_end and name != None:
                 self.make_and_name_func(addr, name, "T")
 
         for name, addr in symbols["t"].iteritems():
             addr = self.adjust_addr(binary_text_start, kallsyms_text_start, addr)
-            if addr < sections[".text"].end:
+            if addr < binary_text_end and name != None:
                 self.make_and_name_func(addr, name, "t")
 
         self.view.update_analysis_and_wait() 
