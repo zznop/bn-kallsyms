@@ -1,18 +1,19 @@
 {
-    "plugin": {
-        "name": "kallsyms",
-        "type": ["binaryview"],
-        "api": "python2",
-        "description": "Binary Ninja plugin for importing symbols to a kernel binary from /proc/kallsyms",
-        "longdescription": "Binary Ninja plugin for importing symbols to a kernel binary from /proc/kallsyms",
-        "license": {
+    "pluginmetadataversion": 1,
+    "name": "kallsyms",
+    "type": ["helper" ],
+    "api": ["python2"],
+    "description": "Parses output from /proc/kallsyms and applies symbols to the corresponding kernel BN database",
+    "longdescription": "This plugin parses the output from /proc/kallsyms and applies symbols to the loaded BN database",
+    "license": {
             "name": "MIT",
             "text": "Copyright (c) 2017 zznop\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
-        },
-        "version": "1.0",
-        "author": "zznop",
-        "minimumBinaryNinjaVersion": {
-            "release": "1.1.1142"
-        }
-    }
+
+    },
+    "platforms": ["Linux"],
+    "dependencies": {
+    },
+    "version": "1.0",
+    "author": "zznop",
+    "minimumbinaryninjaversion": 0
 }
