@@ -13,7 +13,7 @@ class KAllSyms(BackgroundTaskThread):
         symbols = {}
         for line in self.file.readlines():
             columns = line.split()
-            addr = long(columns[0], 16)
+            addr = int(columns[0], 16)
             typ = columns[1]
             name = columns[2]
             if typ in symbols:
@@ -37,7 +37,7 @@ class KAllSyms(BackgroundTaskThread):
     def adjust_addr(self, bin_section_start, kallsym_section_start, symbol_addr):
         """Adjust the address for the binary (if the load addr differs between a kallsyms output file and the binary)
         """
-        return long(bin_section_start) + (long(symbol_addr) - long(kallsym_section_start))
+        return int(bin_section_start) + (int(symbol_addr) - int(kallsym_section_start))
 
     def make_and_name_func(self, addr, name, typ):
         """Make a function and name it
@@ -82,12 +82,12 @@ class KAllSyms(BackgroundTaskThread):
             binary_text_end = self.view.end
 
         kallsyms_text_start = symbols["T"]["_stext"]
-        for name, addr in symbols["T"].iteritems():
+        for name, addr in symbols["T"].items():
             addr = self.adjust_addr(binary_text_start, kallsyms_text_start, addr)
             if addr < binary_text_end and name != None:
                 self.make_and_name_func(addr, name, "T")
 
-        for name, addr in symbols["t"].iteritems():
+        for name, addr in symbols["t"].items():
             addr = self.adjust_addr(binary_text_start, kallsyms_text_start, addr)
             if addr < binary_text_end and name != None:
                 self.make_and_name_func(addr, name, "t")
