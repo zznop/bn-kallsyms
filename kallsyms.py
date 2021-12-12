@@ -92,6 +92,16 @@ class KAllSyms(BackgroundTaskThread):
             if addr < binary_text_end and name != None:
                 self.make_and_name_func(addr, name, "t")
 
+        for name, addr in symbols['D'].items():
+            addr = self.adjust_addr(binary_text_start, kallsyms_text_start, addr)
+            if name != None:
+                self.view.define_user_symbol(Symbol(SymbolType.DataSymbol, addr, name))
+
+        for name, addr in symbols['d'].items():
+            addr = self.adjust_addr(binary_text_start, kallsyms_text_start, addr)
+            if name != None:
+                self.view.define_user_symbol(Symbol(SymbolType.DataSymbol, addr, name))
+
         self.view.update_analysis_and_wait() 
 
     def run(self):
