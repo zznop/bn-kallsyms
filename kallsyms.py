@@ -75,6 +75,8 @@ class KAllSyms(BackgroundTaskThread):
         """Creates functions and applies symbols
         """
         for typ in ['t', 'T']:
+            if typ not in symbols:
+                continue
             for name, addr in symbols[typ].items():
                 addr = adjust_addr(binary_text_start, kallsyms_text_start, addr)
                 if addr < binary_text_end and name is not None:
@@ -84,6 +86,8 @@ class KAllSyms(BackgroundTaskThread):
         """Creates data variables and applies symbols
         """
         for typ in ['d', 'D']:
+            if typ not in symbols:
+                continue
             for name, addr in symbols[typ].items():
                 addr = adjust_addr(binary_text_start, kallsyms_text_start, addr)
                 if name is not None:
